@@ -1,16 +1,144 @@
+
+SpaceShip yato;
+Star[] starfield;
 //your variable declarations here
 public void setup() 
 {
-  //your code here
+  size(1000, 750);
+  yato =new SpaceShip();
+  starfield = new Star[1000];
+  for(int i=0; i<1000;i++){
+    starfield[i] = new Star();
+  }
+
 }
 public void draw() 
 {
-  //your code here
+  background(0);
+  yato.show();
+  yato.move();
+
+  for(int i=0; i<1000;i++){
+   starfield[i].show();
+   starfield[i].move();
+  }
+  
 }
-class SpaceShip //extends Floater  
+
+public void keyPressed(){
+
+  if(key == CODED){
+    if(keyCode == UP){yato.accelerate(0.9);}
+    if(keyCode == DOWN){yato.accelerate(-0.9);}
+    if(keyCode == LEFT){yato.rotate(-5);}
+    if(keyCode == RIGHT){yato.rotate(5);}
+ }
+ if(key ==' ' ){ 
+  yato.setX((int)((Math.random())*1001)); 
+  yato.getX();
+  yato.setY((int)((Math.random())*1001));
+  yato.getY();
+
+}
+
+
+}
+public void keyReleased() {
+
+  yato.setDirectionX(0);
+  yato.setDirectionY(0);
+}
+
+class SpaceShip extends Floater  
 {   
-    //your code here
+
+int myX,myY;
+
+  public SpaceShip() {
+
+
+    //corners
+    corners = 43;
+    int[] xS = {53,50,-9,-10,-10,-8,-6,-7,-9,-11,-12,-14,-15,-16,-18,-19,-21,-23,-25,-20,-20,-23,-23,-20,-20,-25,-23,-21,-19,-18,-16,-15,-14,-12,-11,-9,-7,-6,-8,-10,-10,-9,50};
+    int[] yS = {0 ,2 ,2 ,1  ,3  ,5 ,3 ,6 ,6 ,4  ,1  , 1 , 2 , 1 , 1 , 4 , 6 , 6 , 3 , 3 , 1 , 1 ,-1 ,-1 ,-3 ,-3 ,-6 ,-6 ,-4 ,-1 ,-1 ,-2 ,-1 ,-1 ,-4 ,-6,-6,-3,-5,-3 ,-1 ,-2,-2}; 
+    xCorners = xS; 
+    yCorners = yS;
+
+    //color
+    myColor = color(255,255,128);
+    //myCenter
+    myCenterX = 500;
+    myCenterY = 375;
+    //myDirection
+    myPointDirection= 270;
+    myDirectionX = 0;
+    myDirectionY =0;
+
+  }
+  public void setX(int x){myCenterX=x;}  
+  public int getX(){return myX;}
+  public void setY(int y){myCenterY=y;}   
+  public int getY(){return myY;}   
+  public void setDirectionX(double x){myDirectionX = x;}   
+  public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionY(double y){myDirectionY = y;}   
+  public double getDirectionY(){return myDirectionY;}   
+  public void setPointDirection(int degrees){myPointDirection = degrees;}   
+  public double getPointDirection(){return myPointDirection;}
+
+  
+
 }
+
+class Star
+{
+  private double sX,sY,sTheta,sSpeed;
+  private int sWH;
+ 
+  public Star(){
+    sX=500;
+    sY=375;
+    sTheta= Math.random()*2*Math.PI;
+    sSpeed= 8;
+    sWH= 1;
+
+  }
+
+  public void show(){
+
+
+    noStroke();
+    fill(255);
+    ellipse((float)sX,(float) sY, sWH, sWH);
+
+  }
+
+  public void move(){
+
+    sX = sX+ Math.cos(sTheta)*sSpeed;
+    sY = sY+ Math.sin(sTheta)*sSpeed;
+    if(sX>1000||sX<0){
+      sX=500;
+    }
+    if(sY>750||sY<0){
+      sY=375;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
