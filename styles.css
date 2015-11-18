@@ -1,6 +1,7 @@
 
 body {
-    background:url("kamui1.png");
+    background:url("kamui.png");
+    background-size: 600
     color: rgb(0,0,0);
     font-family: "Open Sans", sans-serif;
     text-align: center;
