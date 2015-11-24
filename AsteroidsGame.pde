@@ -142,8 +142,8 @@ class Asteroid extends Floater{
   public Asteroid(){
 
     corners=4;
-    int[] xS ={20,-20,-20,20};
-    int[] xY ={20,20,-20,-20};
+    int[] xS ={5,-15,-5,15};
+    int[] xY ={5,15,-5,-15};
     xCorners = xS;
     yCorners = xY;
 
