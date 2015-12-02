@@ -1,7 +1,7 @@
 
 SpaceShip yato;
 Star[] starfield;
-Asteroid[]soMany;
+ArrayList<Asteroid> soMany = new ArrayList<Asteroid>();
 //your variable declarations here
 public void setup() 
 {
@@ -12,12 +12,11 @@ public void setup()
     starfield[i] = new Star();
   }
 
-  soMany = new Asteroid[20];
-    
-  for(int i=0; i<20; i++){
-    soMany[i] = new Asteroid();
-  }
+  for (int i= 0; i<(int)(Math.random()*10+10); i++) {
 
+    soMany.add(new Asteroid());
+    
+  }
 }
 public void draw() 
 {
@@ -30,10 +29,14 @@ public void draw()
    starfield[i].move();
   }
 
-  for(int i=0; i<20;i++){
-    soMany[i].show();
-    soMany[i].move();
+  for(int i=0; i<soMany.size();i++){
+    soMany.get(i).show();
+    soMany.get(i).move();
+    if(dist(soMany.get(i).getX(),soMany.get(i).getY(),yato.getX(), yato.getY())<20){
+    soMany.remove(i);  
   }
+
+ }
   
 }
 
