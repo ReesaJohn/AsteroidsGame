@@ -1,6 +1,8 @@
 
 SpaceShip yato;
 Star[] starfield;
+Bullet gami;
+ArrayList<Bullet> armada = new ArrayList<Bullet>(); 
 ArrayList<Asteroid> soMany = new ArrayList<Asteroid>();
 //your variable declarations here
 public void setup() 
@@ -17,12 +19,14 @@ public void setup()
     soMany.add(new Asteroid());
     
   }
+  
 }
 public void draw() 
 {
   background(0);
   yato.show();
   yato.move();
+  
 
   for(int i=0; i<1000;i++){
    starfield[i].show();
@@ -32,11 +36,28 @@ public void draw()
   for(int i=0; i<soMany.size();i++){
     soMany.get(i).show();
     soMany.get(i).move();
-    if(dist(soMany.get(i).getX(),soMany.get(i).getY(),yato.getX(), yato.getY())<20){
-    soMany.remove(i);  
+      
+    
   }
+  for(int a=0; a<armada.size();a++){
+    armada.get(a).show();
+    armada.get(a).move();
+    if(armada.get(a).getX()>1000||armada.get(a).getX()<0){
+      armada.remove(a);
+    }
+    if(armada.get(a).getY()>750||armada.get(a).getY()<0){
+      armada.remove(a);
+    }
+    for(int i=0;i<soMany.size();i++){
 
- }
+      if(dist(soMany.get(i).getX(),soMany.get(i).getY(),armada.get(a).getX(),armada.get(a).getY())<10){
+      soMany.remove(i);
+      break;  
+      }
+
+    }
+
+  }
   
 }
 
@@ -47,8 +68,9 @@ public void keyPressed(){
     if(keyCode == DOWN){yato.accelerate(-0.9);}
     if(keyCode == LEFT){yato.rotate(-5);}
     if(keyCode == RIGHT){yato.rotate(5);}
+
  }
- if(key ==' ' ){ 
+ if(key == ENTER){ 
   yato.setX((int)((Math.random())*1001)); 
   yato.getX();
   yato.setY((int)((Math.random())*1001));
@@ -56,6 +78,9 @@ public void keyPressed(){
 
 }
 
+if(key == ' '){
+    armada.add(new Bullet(yato));
+}
 
 }
 public void keyReleased() {
@@ -196,6 +221,56 @@ class Asteroid extends Floater{
     }
 }
 
+class Bullet extends Floater{
+
+private double dRadians; 
+
+public Bullet(SpaceShip yato){
+
+ 
+
+  corners=8;
+  int[] xS ={0,2,3, 2, 0,-2,-3,-2};
+  int[] xY ={3,2,0,-2,-3,-2, 0, 2};
+  xCorners = xS;
+  yCorners = xY;
+
+  myColor = color(212,254,255);
+
+  myCenterX = yato.getX();
+  myCenterY = yato.getY();
+    
+  myPointDirection =yato.getPointDirection();
+  dRadians =myPointDirection*(Math.PI/180);
+
+  myDirectionX = yato.getDirectionX()+(5 *Math.cos(dRadians));
+  myDirectionY = yato.getDirectionY()+(5 *Math.sin(dRadians));
+
+  }
+
+public void show () 
+   { 
+    noStroke();
+    fill(myColor);            
+    ellipse((int)myCenterX,(int)myCenterY, 8,8);
+    
+    fill(240,255,255,50);
+    ellipse((int)myCenterX,(int)myCenterY,15,15);
+   }  
+
+  public void setX(int x){myCenterX=x;}  
+  public int getX(){return (int)myCenterX;}
+  public void setY(int y){myCenterY=y;}   
+  public int getY(){return (int)myCenterY;}   
+  public void setDirectionX(double x){myDirectionX = x;}   
+  public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionY(double y){myDirectionY = y;}   
+  public double getDirectionY(){return myDirectionY;}   
+  public void setPointDirection(int degrees){myPointDirection = degrees;}   
+  public double getPointDirection(){return myPointDirection;} 
+
+
+}
 
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
