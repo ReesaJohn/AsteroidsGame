@@ -175,7 +175,7 @@ class Asteroid extends Floater{
     xCorners = xS;
     yCorners = xY;
 
-    myColor = color(91,206,245);
+    myColor = color(227,16,41);
 
     myCenterX =500;
     myCenterY =375;
