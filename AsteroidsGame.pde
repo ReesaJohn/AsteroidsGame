@@ -1,9 +1,13 @@
-
+PImage baes;
+PImage aqua;
+PFont font;
 SpaceShip yato;
 Star[] starfield;
 Bullet gami;
 ArrayList<Bullet> armada = new ArrayList<Bullet>(); 
 ArrayList<Asteroid> soMany = new ArrayList<Asteroid>();
+boolean loseGame = false;
+boolean winGame = false;
 //your variable declarations here
 public void setup() 
 {
@@ -19,10 +23,15 @@ public void setup()
     soMany.add(new Asteroid());
     
   }
+  baes = loadImage("baes.png");
+  aqua = loadImage("aqua.jpg");
+  
   
 }
 public void draw() 
 {
+  //System.out.println(loseGame); 
+  System.out.println(winGame);
   background(0);
   yato.show();
   yato.move();
@@ -39,6 +48,34 @@ public void draw()
       
     
   }
+  for(int l=0;l<soMany.size();l++){
+    if(dist(soMany.get(l).getX(),soMany.get(l).getY(),yato.getX(),yato.getY())<12){
+      loseGame=true;
+    }
+  }
+
+  if (soMany.size()==0){
+        winGame = true;
+  }
+
+  if(loseGame==true){
+    image(baes, 0, 0);
+    textSize(32);
+    fill(102,20,18);
+    text("What?", 450,375);
+    text("How can you Lose?",365, 420);  
+
+  }
+
+  if (winGame==true) {
+  image(aqua,-200,0);
+  textSize(32);
+  fill(102,20,18);
+  text("What?", 170,375);
+  text("You actually won?",170, 420);  
+   
+  }
+
   for(int a=0; a<armada.size();a++){
     armada.get(a).show();
     armada.get(a).move();
@@ -49,16 +86,12 @@ public void draw()
       armada.remove(a);
     }
     for(int i=0;i<soMany.size();i++){
-
       if(dist(soMany.get(i).getX(),soMany.get(i).getY(),armada.get(a).getX(),armada.get(a).getY())<10){
       soMany.remove(i);
       break;  
       }
-
-    }
-
-  }
-  
+    } 
+  }  
 }
 
 public void keyPressed(){
