@@ -30,8 +30,6 @@ public void setup()
 }
 public void draw() 
 {
-  //System.out.println(loseGame); 
-  System.out.println(winGame);
   background(0);
   yato.show();
   yato.move();
